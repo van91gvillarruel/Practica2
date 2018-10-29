@@ -13,9 +13,10 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from rest_framework.routes import DefaultRouter
+
+from rest_framework.routers import DefaultRouter
 from jugador.views import JugadorViewSet
 
 router = DefaultRouter()
-router.register(r'create-player', JugadorViewSet, basename='create-player')
+router.register(r'player', JugadorViewSet, base_name='player')
 urlpatterns = router.urls
