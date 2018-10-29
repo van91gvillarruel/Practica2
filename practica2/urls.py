@@ -14,8 +14,8 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from rest_frameworks.routes import DefaultRouter
-
+from jugador.views import JugadorViewSet
 
 router = DefaultRouter()
-router.register(r'player', JugadorViewSet, basename='player')
+router.register(r'create-player', JugadorViewSet, basename='create-player')
 urlpatterns = router.urls
