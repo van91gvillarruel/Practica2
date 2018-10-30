@@ -32,6 +32,13 @@ class JugadorSerializer(serializers.ModelSerializer):
         player.save()
         return PlayerSerializer(player).data
 
+    def show(self):
+        player = Jugador.objects.all()
+        print(player)
+        return PlayerSerializer(player, many=True).data
+
+
+
 class PlayerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Jugador
