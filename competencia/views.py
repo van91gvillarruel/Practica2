@@ -6,7 +6,6 @@ from .serializers import CompetenciaSerializer, CrearCompetenciaSerializer
 from .models import Competencia
 from jugador.models import Jugador
 
-
 class CompetenciaViewSet(viewsets.ModelViewSet):
     serializer_class = CompetenciaSerializer
     queryset = Competencia.objects.all()
@@ -16,7 +15,7 @@ class CompetenciaViewSet(viewsets.ModelViewSet):
         serializer = CrearCompetenciaSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         resp = serializer.crear()
-        return Response(resp)
+        return Response ('ok')
 
     def list(self, request):
         print("estoy en lista")
