@@ -15,10 +15,13 @@ Including another URLconf
 """
 
 from rest_framework.routers import DefaultRouter
+
+from competencia.views import CompetenciaViewSet
 from jugador.views import JugadorViewSet
 from team.views import TeamViewSet
 
 router = DefaultRouter()
+router.register(r'competencia', CompetenciaViewSet, base_name='competencias')
 router.register(r'player', JugadorViewSet, base_name='player')
 router.register(r'team', TeamViewSet, base_name='teams')
 urlpatterns = router.urls
