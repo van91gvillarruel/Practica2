@@ -21,8 +21,6 @@ class JugadorSerializer(serializers.ModelSerializer):
         else:
             raise serializers.ValidationError('No existe el equipo')
 
-
-
     def create(self):
         player = Jugador()
         player.name = self.validated_data.get('name')
@@ -31,6 +29,12 @@ class JugadorSerializer(serializers.ModelSerializer):
         print(self.validated_data.get('name'))
         player.save()
         return PlayerSerializer(player).data
+
+    def show(self):
+        player = Jugador.objects.all()
+        print(player)
+        return PlayerSerializer(player, many=True).data
+
 
 class PlayerSerializer(serializers.ModelSerializer):
     class Meta:
