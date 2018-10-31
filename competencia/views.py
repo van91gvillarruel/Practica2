@@ -15,7 +15,7 @@ class CompetenciaViewSet(viewsets.ModelViewSet):
         serializer = CrearCompetenciaSerializer(data=request.data, context=request.data)
         serializer.is_valid(raise_exception=True)
         resp = serializer.crear()
-        return Response ('ok')
+        return Response (resp)
 
     def list(self, request):
         print("estoy en lista")

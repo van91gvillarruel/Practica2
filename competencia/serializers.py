@@ -20,24 +20,29 @@ class CrearCompetenciaSerializer(serializers.Serializer):
     player_two = serializers.IntegerField()
 
     def crear(self):
-        print("Estoy en Crear")
-        print(self.validated_data)
         competencia = Competencia()
 
-        player_one = randint(0, 5)
-        player_two = randint(0, 5)
+        score1 = randint(0, 5)
+        score2 = randint(0, 5)
 
-        if (player_one>player_two):
-            print("gano jugador 1")
-            print(player_one, player_two)
-        elif (player_two>player_one):
-            print("gano jugador 2")
-            print(player_one, player_two)
-        else:
-            print("empate")
-            print(player_one, player_two)
+        competencia.player_one_score=score1
+        competencia.player_two_score=score2
+        player1 = Jugador.objects.filter(id=self.validated_data.get('player_one')).first()
+        player2 = Jugador.objects.filter(id=self.validated_data.get('player_two')).first()
 
-         # competencia.save()
+        competencia.player_one = player1
+        competencia.player_two = player2
+
+
+        if (score1>score2):
+            competencia.winner = player1.id
+
+        elif (score2>score1):
+            competencia.winner = player2.id
+
+        competencia.save()
+
+        return CompetenciaSerializer(competencia).data
 
     def validate_player_one(self, param):
         if Jugador.objects.filter(id=param):
