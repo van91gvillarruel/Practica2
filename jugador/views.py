@@ -19,3 +19,10 @@ class JugadorViewSet(viewsets.ModelViewSet):
         serializer.is_valid(raise_exception=True)
         respuesta = serializer.create()
         return Response(respuesta)
+
+    def list(self, request):
+        serializer = JugadorSerializer()
+        respuesta = serializer.show()
+        return Response(respuesta)
+
+

@@ -3,6 +3,10 @@ from rest_framework import serializers
 from .models import Competencia
 from jugador.models import Jugador
 from jugador.serializers import JugadorSerializer
+from team.models import Team
+
+from random import randint
+
 
 
 class CompetenciaSerializer(serializers.ModelSerializer):
@@ -15,9 +19,28 @@ class CrearCompetenciaSerializer(serializers.Serializer):
     player_one = serializers.IntegerField()
     player_two = serializers.IntegerField()
 
+# class CrearCompetenciaSerializer(serializers.ModelSerializer):
+
     def crear(self):
         print("Estoy en Crear")
-        return {"ok"}
+        print(self.validated_data)
+        competencia = Competencia()
+
+        player_one = randint(0, 5)
+        player_two = randint(0,5)
+
+        if (player_one>player_two):
+            print("gano jugador 1")
+            print(player_one, player_two)
+        elif (player_two>player_one):
+            print("gano jugador 2")
+            print(player_one, player_two)
+        else:
+            print("empate")
+            print(player_one, player_two)
+
+         # competencia.save()
+
 
     def validate_player_one(self, param):
         print("param validate 1: ")
@@ -49,5 +72,3 @@ class CrearCompetenciaSerializer(serializers.Serializer):
         print(JugadorSerializer(p2, many=True).data)
 
         return {'ok'}
-
-
