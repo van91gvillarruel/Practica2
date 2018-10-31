@@ -12,11 +12,16 @@ class CompetenciaViewSet(viewsets.ModelViewSet):
 
     def create(self, request):
         print("Estoy en create")
-        serializer = CrearCompetenciaSerializer(data=request.data)
+        serializer = CrearCompetenciaSerializer(data=request.data, context=request.data)
         serializer.is_valid(raise_exception=True)
         resp = serializer.crear()
-        return Response ('ok')
+        return Response (resp)
 
     def list(self, request):
         print("estoy en lista")
-        return Response('ok')
+        serializer = CompetenciaSerializer()
+        respuesta = serializer.show()
+        return Response(respuesta)
+
+
+

@@ -8,4 +8,5 @@ class Competencia(models.Model):
     player_one_score = models.IntegerField(null=False)
     player_two = models.ForeignKey(Jugador, related_name='competencia_player_two', on_delete=models.CASCADE, null=True)
     player_two_score = models.IntegerField(null=False)
+    winner = models.IntegerField(null=True)
     played_time = models.DateTimeField(auto_now_add=True)

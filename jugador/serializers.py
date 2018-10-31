@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .models import Jugador
 from team.models import Team
+from team.serializers import TeamSerializer
 
 
 class JugadorSerializer(serializers.ModelSerializer):
@@ -59,6 +60,12 @@ class SearchSerializer(serializers.ModelSerializer):
     def search(self):
         name = Jugador.objects.filter(name__icontains=self.validated_data.get('name'), team=self.validated_data.get('team'))
         return PlayerSerializer(name, many=True).data
+
+
+class JugadorInfoSerializer(serializers.Serializer):
+    id = serializers.IntegerField()
+    team = TeamSerializer()
+    name = serializers.CharField()
 
 
 class PlayerSerializer(serializers.ModelSerializer):
