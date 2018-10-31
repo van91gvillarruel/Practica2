@@ -19,4 +19,9 @@ class CompetenciaViewSet(viewsets.ModelViewSet):
 
     def list(self, request):
         print("estoy en lista")
-        return Response('ok')
+        serializer = CompetenciaSerializer()
+        respuesta = serializer.show()
+        return Response(respuesta)
+
+
+

@@ -11,8 +11,11 @@ class CompetenciaSerializer(serializers.ModelSerializer):
         model = Competencia
         fields = '__all__'
 
+    def show(self):
+        competition = Competencia.objects.all()
+        return CompetenciaSerializer(competition, many=True).data
 
-class CrearCompetenciaSerializer(serializers.ModelSerializer):
+class CrearCompetenciaSerializer(CompetenciaSerializer):
 
     def crear(self):
         print("Estoy en Crear")
