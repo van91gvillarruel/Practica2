@@ -2,6 +2,7 @@ from rest_framework import serializers
 
 from .models import Competencia
 from jugador.models import Jugador
+from jugador.serializers import JugadorInfoSerializer
 
 from random import randint
 
@@ -13,7 +14,17 @@ class CompetenciaSerializer(serializers.ModelSerializer):
 
     def show(self):
         competition = Competencia.objects.all()
-        return CompetenciaSerializer(competition, many=True).data
+        return CompetenciaInfoSerializer(competition, many=True).data
+
+
+class CompetenciaInfoSerializer(serializers.Serializer):
+    player_one = JugadorInfoSerializer()
+    player_one_score = serializers.IntegerField()
+    player_two = JugadorInfoSerializer()
+    player_two_score = serializers.IntegerField()
+    winner = serializers.IntegerField()
+    played_time = serializers.DateTimeField()
+
 
 class CrearCompetenciaSerializer(serializers.Serializer):
     player_one = serializers.IntegerField()
@@ -32,7 +43,6 @@ class CrearCompetenciaSerializer(serializers.Serializer):
 
         competencia.player_one = player1
         competencia.player_two = player2
-
 
         if (score1>score2):
             competencia.winner = player1.id
