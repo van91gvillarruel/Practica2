@@ -1,5 +1,5 @@
 from rest_framework import viewsets
-from .serializers import JugadorSerializer
+from .serializers import JugadorSerializer, SearchSerializer
 from .models import Jugador
 from rest_framework.response import Response
 
@@ -20,9 +20,15 @@ class JugadorViewSet(viewsets.ModelViewSet):
         respuesta = serializer.create()
         return Response(respuesta)
 
+    #def list(self, request):
+    #    serializer = JugadorSerializer()
+    #    respuesta = serializer.show()
+    #    return Response(respuesta)
+
     def list(self, request):
-        serializer = JugadorSerializer()
-        respuesta = serializer.show()
+        data1= request.query_params.dict()
+        print(data1)
+        serializer = SearchSerializer(data=data1)
+        serializer.is_valid(raise_exception=True)
+        respuesta = serializer.search()
         return Response(respuesta)
-
-

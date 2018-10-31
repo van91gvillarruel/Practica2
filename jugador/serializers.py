@@ -36,6 +36,31 @@ class JugadorSerializer(serializers.ModelSerializer):
         return PlayerSerializer(player, many=True).data
 
 
+class SearchSerializer(serializers.ModelSerializer):
+    team = serializers.IntegerField()
+    name = serializers.CharField()
+
+    class Meta:
+        model = Jugador
+        fields = '__all__'
+
+    def validate_name(self, param):
+        if Jugador.objects.filter(name__icontains=param):
+            return param
+        else:
+            raise serializers.ValidationError('No existe este jugador')
+
+    def validate_team(self, param):
+        if Team.objects.filter(id=param):
+            return param
+        else:
+            raise serializers.ValidationError('No existe el equipo')
+
+    def search(self):
+        name = Jugador.objects.filter(name__icontains=self.validated_data.get('name'), team=self.validated_data.get('team'))
+        return PlayerSerializer(name, many=True).data
+
+
 class PlayerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Jugador
