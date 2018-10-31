@@ -2,7 +2,7 @@ from rest_framework import serializers
 
 from .models import Competencia
 from jugador.models import Jugador
-from team.models import Team
+
 from random import randint
 
 
@@ -15,7 +15,9 @@ class CompetenciaSerializer(serializers.ModelSerializer):
         competition = Competencia.objects.all()
         return CompetenciaSerializer(competition, many=True).data
 
-class CrearCompetenciaSerializer(CompetenciaSerializer):
+class CrearCompetenciaSerializer(serializers.Serializer):
+    player_one = serializers.IntegerField()
+    player_two = serializers.IntegerField()
 
     def crear(self):
         print("Estoy en Crear")
@@ -23,7 +25,7 @@ class CrearCompetenciaSerializer(CompetenciaSerializer):
         competencia = Competencia()
 
         player_one = randint(0, 5)
-        player_two = randint(0,5)
+        player_two = randint(0, 5)
 
         if (player_one>player_two):
             print("gano jugador 1")
@@ -37,6 +39,23 @@ class CrearCompetenciaSerializer(CompetenciaSerializer):
 
          # competencia.save()
 
-        return {"ok"}
+    def validate_player_one(self, param):
+        if Jugador.objects.filter(id=param):
+            return param
+        else:
+            raise serializers.ValidationError("Jugador uno no existe")
 
+    def validate_player_two(self, param):
+        if Jugador.objects.filter(id=param):
+            return param
+        else:
+            raise serializers.ValidationError("Jugador dos no existe")
+
+    def validate(self, param):
+        p1 = Jugador.objects.filter(id=self.context['player_one']).first()
+        p2 = Jugador.objects.filter(id=self.context['player_two']).first()
+        if p1.team.id != p2.team.id:
+            return param
+        else:
+            raise serializers.ValidationError("Jugadores pertenecen al mismo equipo")
 
